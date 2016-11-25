@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
+#include "fill_it.h"
 
 int			count_columns(t_list *list)
 {
@@ -59,16 +59,4 @@ int			size_list(t_list *list)
 		list = list->next;
 	}
 	return (size);
-}
-
-t_list		*ft_strip_fisrt_line(t_list *list)
-{
-	while (list->next != NULL)
-	{
-		if (list->data == '\n')
-			break ;
-		list = list->next;
-	}
-	list = list->next;
-	return (list);
 }
