@@ -11,6 +11,38 @@
 /* ************************************************************************** */
 
 
+t_list		*ft_create_elem(char data)
+{
+	t_list	*my_list;
+
+	my_list = malloc(sizeof(t_list));
+	if (my_list)
+	{
+		my_list->data = data;
+		my_list->next = NULL;
+	}
+	return (my_list);
+}
+
+void		ft_list_push_back(t_list *begin_list, char data)
+{
+	t_list	*tmp;
+
+	if (begin_list == NULL)
+	{
+		begin_list = ft_create_elem(data);
+		if (begin_list == NULL)
+			exit(-1);
+	}
+	else
+	{
+		tmp = begin_list;
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = ft_create_elem(data);
+	}
+}
+
 t_list		*parse_file(char *path)
 {
 	t_list	*begin_list;
@@ -29,5 +61,3 @@ t_list		*parse_file(char *path)
 	}
 	return (begin_list);
 }
-
-i
