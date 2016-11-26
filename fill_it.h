@@ -22,6 +22,12 @@
 
 # define BUF_SIZE 80
 
+typedef	struct		s_list
+{
+	char			data;
+	struct s_list	*next;
+}					t_list;
+
 typedef	struct		s_input_list
 {
 	char			data;
