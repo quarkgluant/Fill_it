@@ -30,4 +30,3 @@ t_list		*parse_file(char *path)
 	return (begin_list);
 }
 
-i
