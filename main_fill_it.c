@@ -12,10 +12,18 @@
 
 #include "fill_it.h"
 
+void			usage(void)
+{
+	write(1, "usage: fillit file\n", 19);
+}
+
 int				main(int argc, char **argv)
 {
+	t_list		*brut_list;
+
 	if (argc != 2)
-		exit(-1);
-	parse_file(argv[1]);
+		return (usage());
+	brut_list = parse_file(argv[1]);
+	check_list(brut_list);
 	return (0);
 }
