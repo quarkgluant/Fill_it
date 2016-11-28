@@ -25,12 +25,15 @@
 typedef	struct		s_list
 {
 	char			data;
+	int				x;
+	int				y;
+	int				width;
+	int				height;
 	struct s_list	*next;
 }					t_list;
 
 typedef	struct		s_input_list
 {
-	char			data;
 	int				x;
 	int				y;
 	int				width;
