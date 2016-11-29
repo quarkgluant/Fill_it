@@ -36,7 +36,7 @@ int				check_list(t_list **my_list)
 			return (write(1, "caractere invalide\n", 19));
 		if (x > 4)
 			return (write(1, "ligne trop longue\n", 18));
-		if (y > 4 && x > 0)
+		if (y > 4 && list->next->data != '\n')
 			return (write(1, "trop de ligne\n", 14));
 		x++;
 		if (list->data == '#')
