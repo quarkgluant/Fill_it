@@ -38,13 +38,13 @@ int			ft_checkstring(int count, char *str)
 	return (1);
 }
 
-int			ft_checkneighbor(char	*str)
+int			ft_checkneighbor(char *str)
 {
 	int		i;
 	int		neighbor;
 
 	neighbor = 0;
-	i =0;
+	i = 0;
 	while (i <= 20)
 	{
 		if (str[i] == '#')
@@ -73,10 +73,11 @@ t_etris		*create_maillon(char *str, char value)
 	ft_max_size(str, tab);
 	forme = (char **)ft_memalloc(sizeof(char *) * (tab[3] - tab[1] + 1));
 	i = 0;
-	while ( i < (tab[3] - tab[1] + 1))
+	while (i < (tab[3] - tab[1] + 1))
 	{
 		forme[i] = ft_strnew((tab[2] - tab[0] + 1));
-		ft_strncpy(forme[i], str + (tab[0] + (i + tab[1]) * 5), tab[2] - tab[0] + 1);
+		ft_strncpy(forme[i], str + (tab[0] + (i + tab[1]) * 5), 
+			tab[2] - tab[0] + 1);
 		i++;
 	}
 	mail = tetris_new(forme,tab[2] - tab[0] + 1, tab[3] - tab[1] + 1, value);
@@ -108,7 +109,7 @@ t_list		*ft_readfile(int fc)
 	while ((ret = read(fc, tab, 21)) > 0)
 	{
 		if (!(ft_checkneighbor(tab) && ft_checkstring(ret, tab)
-				&& ft_addtetrimino(lst,tab,value++)))
+				&& ft_addtetrimino(lst, tab, value++)))
 		{
 			ft_memdel((void **)&tab);
 			return (*lst);
@@ -247,6 +248,7 @@ t_map	*ft_solvemap(t_list *lst)
 	}
 	return (map);
 }
+
 int		main(int argc, char **argv)
 {
 	int		fc;
@@ -267,7 +269,7 @@ int		main(int argc, char **argv)
 		return (1);
 	}
 	if ((lst = ft_readfile(fc)) == NULL)
-		close (fc);
+		close(fc);
 	else
 	{
 		map = ft_solvemap(lst);

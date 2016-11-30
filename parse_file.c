@@ -24,9 +24,7 @@ t_list		*parse_file(char *path)
 	read(fd, &car, 1);
 	begin_list = ft_create_elem(car);
 	while ((pos = read(fd, &car, 1)))
-	{
 		ft_list_push_back(begin_list, car);
-	}
 	return (begin_list);
 }
 

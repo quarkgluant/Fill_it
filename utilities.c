@@ -25,7 +25,7 @@ t_etris		*tetris_new(char **pos, int width, int height, char value)
 	return (tetris);
 }
 
-void	ft_max_size( char *str, int *tab)
+void		ft_max_size( char *str, int *tab)
 {
 	int		i;
 
@@ -51,7 +51,7 @@ void	ft_max_size( char *str, int *tab)
 	}
 }
 
-int		ft_countlst(int n)
+int			ft_countlst(int n)
 {
 	int size;
 
