@@ -25,31 +25,13 @@
 typedef	struct		s_list
 {
 	char			data;
-	int				x;
-	int				y;
-	int				width;
-	int				height;
+	char			letter;
+	short			x;
+	short			y;
+	short			width;
+	short			height;
 	struct s_list	*next;
 }					t_list;
-
-typedef	struct		s_input_list
-{
-	int				x;
-	int				y;
-	int				width;
-	int				height;
-	struct s_list	*next;
-}					t_input_list;
-
-typedef	struct		s_tetra_list
-{
-	char			data;
-	int				x;
-	int				y;
-	int				width;
-	int				height;
-	struct s_list	*next;
-}					t_tetra_list;
 
 t_list				*ft_create_elem(char data);
 void				ft_list_push_back(t_list *begin_list, char data);
