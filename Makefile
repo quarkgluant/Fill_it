@@ -11,7 +11,8 @@
 # **************************************************************************** #
 
 CC=gcc
-CFLAGS=-Wall -Wextra -Werror 
+CFLAGS=-Wall -Wextra -Werror -I.
+LDFLAGS=-L/Users/pcadiot/libft
 NAME=fillit
 SRC=main.c parse_file.c utilities.c
 	
