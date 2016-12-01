@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "fillit.h"
 
 int			ft_checkstring(int count, char *str)
 {
@@ -85,8 +86,6 @@ t_etris		*create_maillon(char *str, char value)
 
 int			ft_addtetrimino(t_list **lst, char *tab, char value)
 {
-	int		i;
-	char	**tableau;
 	t_etris	*ret;
 
 	ret = create_maillon(tab, value);
@@ -306,7 +305,6 @@ int		main(int argc, char **argv)
 	t_list	**lst;
 	t_map	*map;
 	int  	j;
-	t_etris *forme;
 
 	j =0;
 	while (j++ < 50){

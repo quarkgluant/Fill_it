@@ -14,13 +14,14 @@ CC=gcc
 CFLAGS=-Wall -Wextra -Werror -I.
 LDFLAGS=-L/Users/pcadiot/libft
 NAME=fillit
-SRC=main.c parse_file.c utilities.c
+SRC=main.c utilities.c
 	
 OBJ=$(SRC:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
+	$(CC) $(CFLAGS) $(LDFLAGS) $(OBJ) -o $(NAME)
 
 %.o: %.c
 	$(CC) -o $@ -c $< $(CFLAGS)
