@@ -6,7 +6,7 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/27 17:39:35 by jblancha          #+#    #+#             */
-/*   Updated: 2016/11/29 21:09:05 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/12/01 01:05:12 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ int			ft_checkstring(int count, char *str)
 	return (1);
 }
 
-int			ft_checkneighbor(char *str)
+int			ft_checkneighbor(char	*str)
 {
 	int		i;
 	int		neighbor;
 
 	neighbor = 0;
-	i = 0;
+	i =0;
 	while (i <= 20)
 	{
 		if (str[i] == '#')
@@ -73,11 +73,10 @@ t_etris		*create_maillon(char *str, char value)
 	ft_max_size(str, tab);
 	forme = (char **)ft_memalloc(sizeof(char *) * (tab[3] - tab[1] + 1));
 	i = 0;
-	while (i < (tab[3] - tab[1] + 1))
+	while ( i < (tab[3] - tab[1] + 1))
 	{
 		forme[i] = ft_strnew((tab[2] - tab[0] + 1));
-		ft_strncpy(forme[i], str + (tab[0] + (i + tab[1]) * 5), 
-			tab[2] - tab[0] + 1);
+		ft_strncpy(forme[i], str + (tab[0] + (i + tab[1]) * 5), tab[2] - tab[0] + 1);
 		i++;
 	}
 	mail = tetris_new(forme,tab[2] - tab[0] + 1, tab[3] - tab[1] + 1, value);
@@ -92,10 +91,11 @@ int			ft_addtetrimino(t_list **lst, char *tab, char value)
 
 	ret = create_maillon(tab, value);
 	ft_lstaddlast(lst, ft_lstnew(ret, sizeof(t_etris)));
+	ft_memdel((void **)&ret);
 	return (1);
 }
 
-t_list		*ft_readfile(int fc)
+t_list		**ft_readfile(int fc)
 {
 	int		ret;
 	char	*tab;
@@ -109,14 +109,14 @@ t_list		*ft_readfile(int fc)
 	while ((ret = read(fc, tab, 21)) > 0)
 	{
 		if (!(ft_checkneighbor(tab) && ft_checkstring(ret, tab)
-				&& ft_addtetrimino(lst, tab, value++)))
+				&& ft_addtetrimino(lst,tab,value++)))
 		{
 			ft_memdel((void **)&tab);
-			return (*lst);
+			return (lst);
 		}
 	}
 	ft_memdel((void **)&tab);
-	return (*lst);
+	return (lst);
 }
 
 void	ft_printmap(t_map *map)
@@ -129,7 +129,13 @@ void	ft_printmap(t_map *map)
 	i = 0;
 	while (i < size)
 	{
-		ft_putendl(map->array[i]);
+		j =0;
+		while (j < size)
+		{
+			ft_putchar(map->array[i][j]);
+			j++;
+		}
+		ft_putchar('\n');
 		i++;
 	}
 }
@@ -232,6 +238,52 @@ int		ft_mapsolved(t_map *map, t_list *lst)
 	return(0);
 }
 
+void	ft_freemap(t_map *map)
+{
+	int		i;
+	int		size;
+
+	size = map->size;
+	i = 0;
+	while (i < size)
+	{
+		ft_memdel((void **)&(map->array[i]));
+		i++;
+	}
+	ft_memdel((void **)&(map->array));
+	ft_memdel((void **)&map);
+}
+
+void	ft_freetetris(t_etris *tetris)
+{
+	int		i;
+	int		size;
+
+	i = 0;
+	size = tetris->height;
+	while (i < size)
+		ft_memdel((void **)&(tetris->pos[i++]));
+	ft_memdel((void **)&(tetris->pos));
+	ft_memdel((void **)&tetris);
+	free(&(tetris->pos));
+}
+
+void	ft_freelst(t_list **lst)
+{
+	t_list  *next;
+	t_etris	*tetris;
+
+	while (*lst)
+	{
+		tetris = (t_etris *)(*lst)->content;
+		next = (*lst)->next;
+		ft_freetetris(tetris);
+		ft_memdel((void **)lst);
+		*lst = next;
+	}
+	free(lst);
+}
+
 t_map	*ft_solvemap(t_list *lst)
 {
 	int		size;
@@ -243,20 +295,21 @@ t_map	*ft_solvemap(t_list *lst)
 	while (!ft_mapsolved(map, lst))
 	{
 		size++;
-		free(map);
+		ft_freemap(map);
 		map = ft_newmap(size);
 	}
 	return (map);
 }
-
 int		main(int argc, char **argv)
 {
 	int		fc;
-	t_list	*lst;
+	t_list	**lst;
 	t_map	*map;
 	int  	j;
 	t_etris *forme;
 
+	j =0;
+	while (j++ < 50){
 	if (argc != 2)
 	{
 		ft_putstr("usage: fillit input_file\n");
@@ -268,12 +321,23 @@ int		main(int argc, char **argv)
 		ft_putstr("File cannot be read\n");
 		return (1);
 	}
-	if ((lst = ft_readfile(fc)) == NULL)
-		close(fc);
-	else
+	sleep (30);
+	lst = ft_readfile(fc);
+	if (*lst == NULL)
 	{
-		map = ft_solvemap(lst);
-		ft_printmap(map);
+		ft_freelst(lst);
+		close (fc);
 		ft_putstr("reussi\n");
 	}
+	else
+	{
+		map = ft_solvemap(*lst);
+		ft_printmap(map);
+		ft_freemap(map);
+		ft_freelst(lst);
+		close (fc);
+		sleep (10);
+		ft_putstr("reussi\n");
+	}}
+
 }
