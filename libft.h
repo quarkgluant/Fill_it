@@ -17,8 +17,10 @@
 # include <stdio.h>
 # include <fcntl.h>
 # include <string.h>
+# define NEG(x) (((x) < 0) ? 1 : 0)
+# define ABS(x) (((x) < 0) ? -(x) : x)
 
-typedef	int	(*t_function)(int, int);
+typedef	int			(*t_function)(int, int);
 
 int					ft_is_prime(int nb);
 int					ft_find_next_prime(int nb);
@@ -54,7 +56,7 @@ size_t				ft_strlcpy(char *dest, const char *src, size_t n);
 char				*ft_strdup(char *src);
 char				*ft_strcpy(char *dest, char *src);
 char				*ft_strncpy(char *dest, char *src, size_t len);
-char    			*ft_strrep(char *src, char to_find, char to_replace);
+char				*ft_strrep(char *src, char to_find, char to_replace);
 int					ft_isalpha(int c);
 int					ft_isdigit(int c);
 int					ft_isalnum(int c);
@@ -144,7 +146,5 @@ int					ft_lstvaluefounds(t_lists *lst, char *s);
 t_listi				*ft_lstdelni(t_listi *lst, int n);
 t_lists				*ft_lstdelns(t_lists *lst, int n);
 t_listi				*ft_lstaddni(t_listi *lst, int data, int n);
-# define NEG(x) (((x) < 0) ? 1 : 0)
-# define ABS(x) (((x) < 0) ? -(x) : x)
 
 #endif

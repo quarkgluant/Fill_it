@@ -20,6 +20,7 @@ typedef struct	s_map
 	int			size;
 	char		**array;
 }				t_map;
+
 typedef struct	s_etris
 {
 	char		**pos;
@@ -27,8 +28,10 @@ typedef struct	s_etris
 	int			height;
 	char		value;
 }				t_etris;
+
 t_list			*read_tetri(int fd);
 t_etris			*tetris_new(char **pos, int width, int height, char c);
-int         	ft_findsizemap(t_list *lst);
-void    		ft_max_size( char *str, int *tab);
+int				ft_findsizemap(t_list *lst);
+void			ft_max_size(char *str, int *tab);
+
 #endif
