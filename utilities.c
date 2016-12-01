@@ -6,14 +6,14 @@
 /*   By: jblancha <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/11/28 01:58:34 by jblancha          #+#    #+#             */
-/*   Updated: 2016/12/01 17:15:09 by jblancha         ###   ########.fr       */
+/*   Updated: 2016/12/01 22:16:45 by jblancha         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "fillit.h"
 
-t_etris			*tetris_new(char **pos, int width, int height, char value)
+t_etris		*tetris_new(char **pos, int width, int height, char value)
 {
 	t_etris		*tetris;
 
@@ -25,9 +25,9 @@ t_etris			*tetris_new(char **pos, int width, int height, char value)
 	return (tetris);
 }
 
-void			ft_max_size(char *str, int *tab)
+void		ft_max_size(char *str, int *tab)
 {
-	int			i;
+	int		i;
 
 	i = 0;
 	tab[0] = 3;
@@ -51,9 +51,9 @@ void			ft_max_size(char *str, int *tab)
 	}
 }
 
-int				ft_countlst(int n)
+int			ft_countlst(int n)
 {
-	int			size;
+	int size;
 
 	size = 2;
 	while (size * size < n)
@@ -61,10 +61,10 @@ int				ft_countlst(int n)
 	return (size);
 }
 
-int				ft_maxlst(t_list *lst)
+int			ft_maxlst(t_list *lst)
 {
-	int			max;
-	t_list		*lst1;
+	int		max;
+	t_list	*lst1;
 
 	lst1 = lst;
 	max = 0;
@@ -79,10 +79,10 @@ int				ft_maxlst(t_list *lst)
 	return (max);
 }
 
-int				ft_findsizemap(t_list *lst)
+int			ft_findsizemap(t_list *lst)
 {
-	int			sizelst;
-	int			countlst;
+	int		sizelst;
+	int		countlst;
 
 	sizelst = ft_maxlst(lst);
 	countlst = ft_countlst(ft_lstsize(lst) * 4);
