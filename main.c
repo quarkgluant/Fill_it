@@ -11,11 +11,12 @@
 /* ************************************************************************** */
 
 #include "libft.h"
+#include "fillit.h"
 
-int			ft_checkstring(int count, char *str)
+int				ft_checkstring(int count, char *str)
 {
-	int		i;
-	int		block;
+	int			i;
+	int			block;
 
 	i = 0;
 	block = 0;
@@ -29,22 +30,24 @@ int			ft_checkstring(int count, char *str)
 				return (0);
 		}
 		else
+		{
 			if (str[i] != '\n')
 				return (0);
+		}
 		i++;
 	}
-		if ((count == 21) && str[20] != '\n')
+	if ((count == 21) && str[20] != '\n')
 		return (0);
 	return (1);
 }
 
-int			ft_checkneighbor(char	*str)
+int				ft_checkneighbor(char *str)
 {
-	int		i;
-	int		neighbor;
+	int			i;
+	int			neighbor;
 
 	neighbor = 0;
-	i =0;
+	i = 0;
 	while (i <= 20)
 	{
 		if (str[i] == '#')
@@ -63,7 +66,7 @@ int			ft_checkneighbor(char	*str)
 	return (((neighbor == 6) || (neighbor == 8)));
 }
 
-t_etris		*create_maillon(char *str, char value)
+t_etris			*create_maillon(char *str, char value)
 {
 	int			i;
 	int			tab[4];
@@ -73,21 +76,20 @@ t_etris		*create_maillon(char *str, char value)
 	ft_max_size(str, tab);
 	forme = (char **)ft_memalloc(sizeof(char *) * (tab[3] - tab[1] + 1));
 	i = 0;
-	while ( i < (tab[3] - tab[1] + 1))
+	while (i < (tab[3] - tab[1] + 1))
 	{
 		forme[i] = ft_strnew((tab[2] - tab[0] + 1));
-		ft_strncpy(forme[i], str + (tab[0] + (i + tab[1]) * 5), tab[2] - tab[0] + 1);
+		ft_strncpy(forme[i], str + (tab[0] + (i + tab[1]) * 5),
+			tab[2] - tab[0] + 1);
 		i++;
 	}
-	mail = tetris_new(forme,tab[2] - tab[0] + 1, tab[3] - tab[1] + 1, value);
-	return (mail);	
+	mail = tetris_new(forme, tab[2] - tab[0] + 1, tab[3] - tab[1] + 1, value);
+	return (mail);
 }
 
-int			ft_addtetrimino(t_list **lst, char *tab, char value)
+int				ft_addtetrimino(t_list **lst, char *tab, char value)
 {
-	int		i;
-	char	**tableau;
-	t_etris	*ret;
+	t_etris		*ret;
 
 	ret = create_maillon(tab, value);
 	ft_lstaddlast(lst, ft_lstnew(ret, sizeof(t_etris)));
@@ -95,12 +97,12 @@ int			ft_addtetrimino(t_list **lst, char *tab, char value)
 	return (1);
 }
 
-t_list		**ft_readfile(int fc)
+t_list			**ft_readfile(int fc)
 {
-	int		ret;
-	char	*tab;
-	t_list	**lst;
-	char	value;
+	int			ret;
+	char		*tab;
+	t_list		**lst;
+	char		value;
 
 	lst = (t_list **)malloc(sizeof(t_list *));
 	*lst = NULL;
@@ -109,7 +111,7 @@ t_list		**ft_readfile(int fc)
 	while ((ret = read(fc, tab, 21)) > 0)
 	{
 		if (!(ft_checkneighbor(tab) && ft_checkstring(ret, tab)
-				&& ft_addtetrimino(lst,tab,value++)))
+				&& ft_addtetrimino(lst, tab, value++)))
 		{
 			ft_memdel((void **)&tab);
 			return (lst);
@@ -119,17 +121,17 @@ t_list		**ft_readfile(int fc)
 	return (lst);
 }
 
-void	ft_printmap(t_map *map)
+void			ft_printmap(t_map *map)
 {
-	int i;
-	int j;
-	int	size;
+	int			i;
+	int			j;
+	int			size;
 
 	size = map->size;
 	i = 0;
 	while (i < size)
 	{
-		j =0;
+		j = 0;
 		while (j < size)
 		{
 			ft_putchar(map->array[i][j]);
@@ -140,11 +142,11 @@ void	ft_printmap(t_map *map)
 	}
 }
 
-t_map	*ft_newmap(int size)
+t_map			*ft_newmap(int size)
 {
-	t_map 	*map;
-	int		i;
-	int		j;
+	t_map		*map;
+	int			i;
+	int			j;
 
 	map = (t_map *)ft_memalloc(sizeof(t_map));
 	map->size = size;
@@ -164,10 +166,10 @@ t_map	*ft_newmap(int size)
 	return (map);
 }
 
-int		ft_copy(t_map *map, t_etris *forme, int x, int y)
+int				ft_copy(t_map *map, t_etris *forme, int x, int y)
 {
-	int		i;
-	int		j;
+	int			i;
+	int			j;
 
 	j = 0;
 	while (j < forme->height)
@@ -184,10 +186,10 @@ int		ft_copy(t_map *map, t_etris *forme, int x, int y)
 	return (1);
 }
 
-int		ft_copypossible (t_map *map, t_etris *forme, int x, int y)
+int				ft_copypossible(t_map *map, t_etris *forme, int x, int y)
 {
-	int		i;
-	int		j;
+	int			i;
+	int			j;
 
 	j = 0;
 	while (j < forme->height)
@@ -204,7 +206,7 @@ int		ft_copypossible (t_map *map, t_etris *forme, int x, int y)
 	return (1);
 }
 
-int		ft_mapsolved(t_map *map, t_list *lst)
+int				ft_mapsolved(t_map *map, t_list *lst)
 {
 	t_etris		*forme;
 	int			x;
@@ -214,10 +216,10 @@ int		ft_mapsolved(t_map *map, t_list *lst)
 	size = map->size;
 	y = 0;
 	forme = (t_etris *)lst->content;
-	while ( y < (size - forme->height + 1))
+	while (y < (size - forme->height + 1))
 	{
 		x = 0;
-		while ( x < (size - forme->width + 1))
+		while (x < (size - forme->width + 1))
 		{
 			if (ft_copypossible(map, forme, x, y))
 			{
@@ -234,13 +236,13 @@ int		ft_mapsolved(t_map *map, t_list *lst)
 		}
 		y++;
 	}
-	return(0);
+	return (0);
 }
 
-void	ft_freemap(t_map *map)
+void			ft_freemap(t_map *map)
 {
-	int		i;
-	int		size;
+	int			i;
+	int			size;
 
 	size = map->size;
 	i = 0;
@@ -253,10 +255,10 @@ void	ft_freemap(t_map *map)
 	ft_memdel((void **)&map);
 }
 
-void	ft_freetetris(t_etris *tetris)
+void			ft_freetetris(t_etris *tetris)
 {
-	int		i;
-	int		size;
+	int			i;
+	int			size;
 
 	i = 0;
 	size = tetris->height;
@@ -267,10 +269,10 @@ void	ft_freetetris(t_etris *tetris)
 	free(&(tetris->pos));
 }
 
-void	ft_freelst(t_list **lst)
+void			ft_freelst(t_list **lst)
 {
-	t_list  *next;
-	t_etris	*tetris;
+	t_list		*next;
+	t_etris		*tetris;
 
 	while (*lst)
 	{
@@ -283,10 +285,10 @@ void	ft_freelst(t_list **lst)
 	free(lst);
 }
 
-t_map	*ft_solvemap(t_list *lst)
+t_map			*ft_solvemap(t_list *lst)
 {
-	int		size;
-	t_map	*map;
+	int			size;
+	t_map		*map;
 
 	size = ft_findsizemap(lst);
 	map = ft_newmap(size);
@@ -298,12 +300,12 @@ t_map	*ft_solvemap(t_list *lst)
 	}
 	return (map);
 }
-int		main(int argc, char **argv)
+
+int				main(int argc, char **argv)
 {
-	int		fc;
-	t_list	**lst;
-	t_map	*map;
-	t_etris *forme;
+	int			fc;
+	t_list		**lst;
+	t_map		*map;
 
 	if (argc != 2)
 	{
@@ -320,7 +322,7 @@ int		main(int argc, char **argv)
 	if (*lst == NULL)
 	{
 		ft_freelst(lst);
-		close (fc);
+		close(fc);
 	}
 	else
 	{
@@ -328,7 +330,6 @@ int		main(int argc, char **argv)
 		ft_printmap(map);
 		ft_freemap(map);
 		ft_freelst(lst);
-		close (fc);
+		close(fc);
 	}
-
 }
