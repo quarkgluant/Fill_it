@@ -12,17 +12,18 @@
 
 CC=gcc
 CFLAGS=-Wall -Wextra -Werror -I.
-LDFLAGS=-L./
-LIB=libft.a
 NAME=fillit
-SRC=main.c utilities.c
+SRC=utilities.c ft_map_utilities.c ft_free_functions.c ft_check_functions.c \
+	main.c ft_memalloc.c ft_memdel.c ft_strncpy.c ft_strnew.c ft_bzero.c \
+	ft_lstnew.c ft_lstsize.c ft_lstaddlast.c ft_putchar.c ft_putstr.c \
+	ft_memcpy.c ft_lstadd.c
 	
 OBJ=$(SRC:.c=.o)
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(CFLAGS) $(LDFLAGS) $(LIB) $(OBJ) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJ) -o $(NAME)
 
 %.o: %.c
 	$(CC) -o $@ -c $< $(CFLAGS)
