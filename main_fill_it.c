@@ -89,17 +89,13 @@ t_tet_list		*list_to_tab(t_list **my_list)
 	t_list		*list;
 	t_tet_list	*tetra;
 	char		fig_tetra[16];
-	int			i;
 
 	list = *my_list;
 	tetra = NULL;
 	while (list)
 	{
-		i = list->z % 16;
 		if (list->z % 16 != 0)
-		{
-			fig_tetra[i] = list->data;
-		}
+			fig_tetra[list->z % 16] = list->data;
 		else 
 		{
 			if (ft_checkneighbor(fig_tetra))
