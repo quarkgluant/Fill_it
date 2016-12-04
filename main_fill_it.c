@@ -17,33 +17,11 @@ void			usage(void)
 	write(1, "usage: fillit file\n", 19);
 }
 
-/*int				check_list(char c, int x, int y, char c_next)
-{
-		if (c != '#' && c != '.' && c != '\n')
-		{
-			write(1, "caractere invalide\n", 19);
-			return (-1);
-		}
-		if (x > 4)
-		{
-			write(1, "ligne trop longue\n", 18);
-			return (-1);
-		}
-		if (y > 4 && c_next != '\n')
-		{
-			write(1, "trop de ligne\n", 14);
-			return (-1);
-		}
-	return (0);
-}
-*/
-
-
 int			fill_list(t_list **my_list)
 {
-	short	x;
-	short	y;
-	t_list	*list;
+	int			x;
+	int			y;
+	t_list		*list;
 
 	x = 0;
 	y = 0;
@@ -52,7 +30,7 @@ int			fill_list(t_list **my_list)
 	{
 		if ((list->data != '#' && list->data != '.' && list->data != '\n') ||
 			(x > 4) || (y > 4 && list->next->data != '\n'))
-			return (write(1, "error\n", 6));
+			exit(write(1, "error\n", 6));
 		list->x = x;
 		list->y = y;
 		x++;
@@ -66,31 +44,84 @@ int			fill_list(t_list **my_list)
 	return (0);
 }
 
-// int				normalise(t_list **my_list)
-// {
-
-// }
-
-int				check_list(t_list **my_list)
+void			fill_z_list(t_list **my_list)
 {
-	t_list	*list;
+	t_list		*list;
+	int			z;
 
 	list = *my_list;
+	z = 1;
 	while (list)
 	{
-		if (list->data == '#')
+		if (list->data != '\n')
+			list->z = z++;
+		list = list->next;
+	}
+}
+
+int			ft_checkneighbor(char *str)
+{
+	int		i;
+	int		neighbor;
+
+	neighbor = 0;
+	i = 0;
+	while (i <= 15)
+	{
+		if (str[i] == '#')
 		{
-			;
+			if (((i - 1) >= 0) && (str[i - 1] == '#'))
+				neighbor++;
+			if (((i + 1) <= 15) && (str[i + 1] == '#'))
+				neighbor++;
+			if (((i - 4) >= 0) && (str[i - 4] == '#'))
+				neighbor++;
+			if (((i + 4) <= 15) && (str[i + 4] == '#'))
+				neighbor++;
+		}
+		i++;
+	}
+	return (((neighbor == 6) || (neighbor == 8)));
+}
+
+t_tet_list		*list_to_tab(t_list **my_list)
+{
+	t_list		*list;
+	t_tet_list	*tetra;
+	char		fig_tetra[16];
+	int			i;
+
+	list = *my_list;
+	tetra = NULL;
+	i = 0;
+	while (list)
+	{
+		
+		if (list->z % 16 != 0)
+		{
+			fig_tetra[i++] = list->data;
+			printf("\ndans list_to_tab list->data: %c\n", list->data);
+			printf("\ndans list_to_tab list->z: %d\n", list->z);
+			printf("\ndans list_to_tab i: %d\n", i);
+		}
+		if (list->z % 16 == 0)
+		{
+			i = 0;
+			if (ft_checkneighbor(fig_tetra))
+				exit(write(1, "error\n", 6));
+			printf("\ndans list_to_tab tetra: %s\n", fig_tetra);
+			tet_list_push_back(tetra, fig_tetra);
 		}
 		list = list->next;
 	}
-	return (0);
+	return (tetra);
 }
 
 int				main(int argc, char **argv)
 {
 	t_list		*brut_list;
 	t_list		*list;
+	t_tet_list	*tetra;
 
 	if (argc != 2)
 	{
@@ -98,11 +129,9 @@ int				main(int argc, char **argv)
 		return (-1);
 	}
 	brut_list = parse_file(argv[1]);
-	if (fill_list(&brut_list) != 0)
-		write(1, "temporaire\n", 10);
-		// exit(0);
-	// check_list(fill_list(&brut_list));
-	// normalise(&brut_list);
+	fill_list(&brut_list);
+	fill_z_list(&brut_list);
+	tetra = list_to_tab(&brut_list);
 	list = brut_list;
 	while (list)
 	{
@@ -120,6 +149,9 @@ int				main(int argc, char **argv)
 			ft_putchar('\n');
 			ft_putstr("y :");
 			ft_putnbr(list->y);
+			ft_putchar('\n');
+			ft_putstr("z :");
+			ft_putnbr(list->z);
 		}
 		list = list->next;
 	}
