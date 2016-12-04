@@ -93,23 +93,17 @@ t_tet_list		*list_to_tab(t_list **my_list)
 
 	list = *my_list;
 	tetra = NULL;
-	i = 0;
 	while (list)
 	{
-		
+		i = list->z % 16;
 		if (list->z % 16 != 0)
 		{
-			fig_tetra[i++] = list->data;
-			printf("\ndans list_to_tab list->data: %c\n", list->data);
-			printf("\ndans list_to_tab list->z: %d\n", list->z);
-			printf("\ndans list_to_tab i: %d\n", i);
+			fig_tetra[i] = list->data;
 		}
-		if (list->z % 16 == 0)
+		else 
 		{
-			i = 0;
 			if (ft_checkneighbor(fig_tetra))
 				exit(write(1, "error\n", 6));
-			printf("\ndans list_to_tab tetra: %s\n", fig_tetra);
 			tet_list_push_back(tetra, fig_tetra);
 		}
 		list = list->next;
