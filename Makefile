@@ -12,7 +12,7 @@
 
 
 CC=gcc
-CFLAGS=-Wall -Wextra -Werror 
+CFLAGS=-Wall -Wextra -Werror -g
 NAME=fillit
 SRC=main_fill_it.c parse_file.c
 	
