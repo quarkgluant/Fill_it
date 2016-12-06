@@ -29,7 +29,7 @@ int			fill_list(t_list **my_list)
 	while (list)
 	{
 		if ((list->data != '#' && list->data != '.' && list->data != '\n') ||
-			(x > 4) || (y > 4 && list->next->data != '\n'))
+			(x > 4) || (y > 4 && list->next->data != '\n' && list->next))
 			exit(write(1, "error\n", 6));
 		list->x = x;
 		list->y = y;
@@ -53,8 +53,8 @@ void			fill_z_list(t_list **my_list)
 	z = 1;
 	while (list)
 	{
-		if (list->data != '\n')
-			list->z = z++;
+		list->z = z++;
+		list->z = list->z % 20;
 		list = list->next;
 	}
 }
@@ -66,17 +66,17 @@ int			ft_checkneighbor(char *str)
 
 	neighbor = 0;
 	i = 0;
-	while (i <= 15)
+	while (i <= 19)
 	{
 		if (str[i] == '#')
 		{
 			if (((i - 1) >= 0) && (str[i - 1] == '#'))
 				neighbor++;
-			if (((i + 1) <= 15) && (str[i + 1] == '#'))
+			if (((i + 1) < 20) && (str[i + 1] == '#'))
 				neighbor++;
-			if (((i - 4) >= 0) && (str[i - 4] == '#'))
+			if (((i - 5) >= 0) && (str[i - 5] == '#'))
 				neighbor++;
-			if (((i + 4) <= 15) && (str[i + 4] == '#'))
+			if (((i + 5) < 20) && (str[i + 5] == '#'))
 				neighbor++;
 		}
 		i++;
@@ -88,18 +88,26 @@ t_tet_list		*list_to_tab(t_list **my_list)
 {
 	t_list		*list;
 	t_tet_list	*tetra;
-	char		fig_tetra[16];
+	char		fig_tetra[20];
+	int			i;
 
 	list = *my_list;
 	tetra = NULL;
 	while (list)
-	{
-		if (list->z % 16 != 0)
-			fig_tetra[list->z % 16] = list->data;
+	{	
+		
+		printf("list->data: %c et list->z: %d\n", list->data, list->z);
+		if (list->z != 0)
+		{
+			i = list->z - 1;
+			fig_tetra[i] = list->data;
+			printf("              fig_tetra[%d]: %c\n", i, fig_tetra[i]);
+		}
 		else 
 		{
 			if (ft_checkneighbor(fig_tetra))
 				exit(write(1, "error\n", 6));
+			printf("tetra\n%s\n", fig_tetra);
 			tet_list_push_back(tetra, fig_tetra);
 		}
 		list = list->next;
