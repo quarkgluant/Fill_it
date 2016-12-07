@@ -29,7 +29,8 @@ int			fill_list(t_list **my_list)
 	while (list->next)
 	{
 		if ((list->data != '#' && list->data != '.' && list->data != '\n') ||
-			(x > 4) || (y > 4 && list->next->data != '\n' && list->next))
+			(x > 4) || (y > 4) || (list->next->data == '\n' && list->data == '\n'
+			&& list->next->next == NULL))
 			exit(write(1, "error\n", 6));
 		list->x = x;
 		list->y = y;
