@@ -54,7 +54,7 @@ void			fill_z_list(t_list **my_list)
 	while (list)
 	{
 		list->z = z++;
-		list->z = list->z % 20;
+		list->z = list->z % 21;
 		list = list->next;
 	}
 }
@@ -96,18 +96,15 @@ t_tet_list		*list_to_tab(t_list **my_list)
 	while (list)
 	{	
 		
-		printf("list->data: %c et list->z: %d\n", list->data, list->z);
 		if (list->z != 0)
 		{
 			i = list->z - 1;
 			fig_tetra[i] = list->data;
-			printf("              fig_tetra[%d]: %c\n", i, fig_tetra[i]);
 		}
 		else 
 		{
-			if (ft_checkneighbor(fig_tetra))
+			if (!ft_checkneighbor(fig_tetra))
 				exit(write(1, "error\n", 6));
-			printf("tetra\n%s\n", fig_tetra);
 			tet_list_push_back(tetra, fig_tetra);
 		}
 		list = list->next;
