@@ -14,7 +14,7 @@
 CC=gcc
 CFLAGS=-Wall -Wextra -Werror -g
 NAME=fillit
-SRC=main_fill_it.c parse_file.c
+SRC=main_fill_it.c parse_file.c ft_util_print.c 
 	
 OBJ=$(SRC:.c=.o)
 
