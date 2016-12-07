@@ -26,7 +26,7 @@ int			fill_list(t_list **my_list)
 	x = 0;
 	y = 0;
 	list = *my_list;
-	while (list)
+	while (list->next)
 	{
 		if ((list->data != '#' && list->data != '.' && list->data != '\n') ||
 			(x > 4) || (y > 4 && list->next->data != '\n' && list->next))
@@ -51,7 +51,7 @@ void			fill_z_list(t_list **my_list)
 
 	list = *my_list;
 	z = 1;
-	while (list)
+	while (list->next)
 	{
 		list->z = z++;
 		list->z = list->z % 21;
@@ -93,7 +93,7 @@ t_tet_list		*list_to_tab(t_list **my_list)
 
 	list = *my_list;
 	tetra = NULL;
-	while (list)
+	while (list->next)
 	{	
 		
 		if (list->z != 0)
@@ -134,7 +134,7 @@ int				main(int argc, char **argv)
 		list = list->next;
 	}
 	list = brut_list;
-	while (list)
+	while (list->next)
 	{
 		if (list->data == '#')
 		{
