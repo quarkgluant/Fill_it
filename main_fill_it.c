@@ -22,13 +22,10 @@ int			check_last_char(t_list **my_list)
 	t_list		*list;
 
 	list = *my_list;
+	if (!list->next)
+		exit(write(1, "error\n", 6));
 	while (list->next)
 	{	
-		// 	printf("\n");
-
-		// printf("               %c\n", list->data);
-		// printf("list->next     %p\n", list->next);
-		// printf("list->next->next %p\n", list->next);
 		if (list->next->next == NULL)
 			break;
 		list = list->next;
@@ -50,7 +47,7 @@ int			fill_list(t_list **my_list)
 	while (list->next)
 	{	
 		if ((list->data != '#' && list->data != '.' && list->data != '\n') ||
-			(x > 4)  || (y > 4 && list->next->data != '\n' && list->next))
+			(x != 4)  || (y != 4))
 			exit(write(1, "error\n", 6));
 		list->x = x;
 		list->y = y;
@@ -102,7 +99,6 @@ int			ft_checkneighbor(char *str)
 		}
 		i++;
 	}
-	printf("nombre voisins: %d\n", neighbor);
 	return (((neighbor == 6) || (neighbor == 8)));
 }
 
@@ -118,18 +114,15 @@ t_tet_list		*list_to_tab(t_list **my_list)
 	while (list)
 	{	
 		
-		printf("list->data: %c et list->z: %d\n", list->data, list->z);
 		if (list->z != 0)
 		{
 			i = list->z - 1;
 			fig_tetra[i] = list->data;
-			printf("              fig_tetra[%d]: %c\n", i, fig_tetra[i]);
 		}
 		else 
 		{
 			if (!ft_checkneighbor(fig_tetra))
 				exit(write(1, "error\n", 6));
-			printf("tetra\n%s\n", fig_tetra);
 			tet_list_push_back(tetra, fig_tetra);
 		}
 		list = list->next;
@@ -154,27 +147,27 @@ int				main(int argc, char **argv)
 	fill_z_list(&brut_list);
 	tetra = list_to_tab(&brut_list);
 	list = brut_list;
-	while (list)
-	{
-		write(1, &list->data, 1);
-		list = list->next;
-	}
-	list = brut_list;
-	while (list)
-	{
-		if (list->data == '#')
-		{
-			ft_putchar('\n');
-			ft_putstr("x :");
-			ft_putnbr(list->x);
-			ft_putchar('\n');
-			ft_putstr("y :");
-			ft_putnbr(list->y);
-			ft_putchar('\n');
-			ft_putstr("z :");
-			ft_putnbr(list->z);
-		}
-		list = list->next;
-	}
+	// while (list)
+	// {
+	// 	write(1, &list->data, 1);
+	// 	list = list->next;
+	// }
+	// list = brut_list;
+	// while (list)
+	// {
+	// 	if (list->data == '#')
+	// 	{
+	// 		ft_putchar('\n');
+	// 		ft_putstr("x :");
+	// 		ft_putnbr(list->x);
+	// 		ft_putchar('\n');
+	// 		ft_putstr("y :");
+	// 		ft_putnbr(list->y);
+	// 		ft_putchar('\n');
+	// 		ft_putstr("z :");
+	// 		ft_putnbr(list->z);
+	// 	}
+	// 	list = list->next;
+	// }
 	return (0);
 }
